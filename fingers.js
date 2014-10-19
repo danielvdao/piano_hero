@@ -8,7 +8,7 @@ var keyGapSize;
 var EDGE_GAP_PERCENT = 0.05;
 var KEY_HEIGHT_PERCENT = .7;
 
-var madeMistake = false;
+
 var noteData = [
 [{  //1st eigth note
     "note": 0,
@@ -51,7 +51,7 @@ window.onload = function() {
     context.fillStyle = "#aaaaaa";
     context.fillRect(0,0,width,height);
     
-    drawKeys(keyCoords);
+    drawKeys();
     //drawFingerMarkers(fakeX, fakeY);
     //updateNotes();
 }
@@ -133,7 +133,7 @@ function update() {
         notesToDraw[i].updatePosition();
         notesToDraw[i].draw();
     }
-    // console.log(keypress);
+    
     //console.log(xmen);
     //console.log(notesToDraw);
 }
@@ -206,6 +206,14 @@ function normalizeY(val) {
     return (val+400)*2;
 }
 
-function flashScreen() {
 
-}
+/*var madeMistake = false;
+var redScreenCounter = 1;
+function flashScreen() {
+    if(madeMistake) {
+        redScreenCounter -= .1;
+        if(redScreenCounter <= 0) {
+            madeMistake = false;
+        }
+    }
+}*/
