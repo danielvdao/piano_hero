@@ -1,13 +1,12 @@
 var canvas;
 var context;
-var width
+var width;
 var height;
-var keyCoords = [[60, 400], [120, 400], [180, 400], [240, 400], [300, 400], [360, 400], [420, 400], [480, 400]];
-var fakeX = [52, 300, 252];
-var fakeY = [127, 350, 273];
 var keyWidth;
 var keyGapSize;
 
+var EDGE_GAP_PERCENT = 0.05;
+var KEY_HEIGHT_PERCENT = .7;
 var noteData = [
 [{  //1st eigth note
     "note": 0,
@@ -45,10 +44,11 @@ window.onload = function() {
     canvas.height = window.innerHeight;
     width = canvas.width;
     height = canvas.height;
-    keyWidth = 140;
+    keyWidth = (1-2*EDGE_GAP_PERCENT)*canvas.width / 9; //9 comes from keys
+    keyGapSize = keyWidth / 9;
     context.fillStyle = "#aaaaaa";
     context.fillRect(0,0,width,height);
-    keyGapSize = (width - 10 * keyWidth) / 9.0;
+    
     drawKeys(keyCoords);
     //drawFingerMarkers(fakeX, fakeY);
     //updateNotes();
@@ -82,14 +82,12 @@ function drawFingerMarkers(xCoords, yCoords) {
 }
 
 
-function drawKeys(keyCoords) {
-    var xPointer = keyGapSize + keyWidth;
+function drawKeys() {
+    var xPointer = width * EDGE_GAP_PERCENT + keyGapSize;
    //console.log(keyGapSize);
     for(var i = 1; i < 9; i++) {
         
         //console.log(xPointer);
-        
-        
         //context.rect(keyCoords[i][0]+keyGapSize/2, keyCoords[i][1], keyCoords[0][0]-keyGapSize, 100);
         var on = 80 + keypress[i-1] * 70;
         
@@ -106,7 +104,7 @@ function drawKeys(keyCoords) {
         context.fill();
         
         context.beginPath();
-        context.rect(xPointer, height*.8, keyWidth, 400);
+        context.rect(xPointer, height*KEY_HEIGHT_PERCENT, keyWidth, height*1-KEY_HEIGHT_PERCENT);
         context.fillStyle = "rgba(70, 70, " + on + ", 1)";
         context.fill();
         context.lineWidth = 6;
@@ -127,7 +125,7 @@ function update() {
     context.rect(0, 0, width, height);
     context.fillStyle = "#000000";
     context.fill();
-    drawKeys(keyCoords);
+    drawKeys();
     drawFingerMarkers(xmen, ymen);
     for(var i = 0; i < notesToDraw.length; i++) { //remove notes from this list eventually
         notesToDraw[i].updatePosition();
@@ -164,7 +162,7 @@ setInterval(updateNotes, 60*1000/bpm);
 var Note = function(keyIndex, duration) {
     this.keyIndex = keyIndex;
     this.duration = duration;
-    this.x =  keyGapSize +  keyWidth + this.keyIndex * (keyWidth+keyGapSize);
+    this.x =  .05 * width + keyGapSize + this.keyIndex * (keyWidth+keyGapSize);
     
     this.noteHeight = duration*(119);
     this.y = -this.noteHeight;
