@@ -36,6 +36,8 @@ var noteData = [
     "duration": 4
 }]]
 
+
+
 window.onload = function() {
     canvas = document.getElementById("canvas");
     context = canvas.getContext("2d");
@@ -43,7 +45,7 @@ window.onload = function() {
     canvas.height = window.innerHeight;
     width = canvas.width;
     height = canvas.height;
-    keyWidth = 120;
+    keyWidth = 140;
     context.fillStyle = "#aaaaaa";
     context.fillRect(0,0,width,height);
     keyGapSize = (width - 10 * keyWidth) / 9.0;
@@ -55,7 +57,8 @@ window.onload = function() {
 
 
 function drawFingerMarkers(xCoords, yCoords) {
-    var radius = 5;
+    var radius = 15;
+
     for(var i = 0; i < xCoords.length; i++) {
        // if(xCoords[i] < -80) {
        //    continue;
@@ -63,13 +66,17 @@ function drawFingerMarkers(xCoords, yCoords) {
         xVal = normalizeX(xCoords[i]);
         yVal = normalizeY(yCoords[i]);
         //console.log(yCoords);
+        var grd=context.createLinearGradient(0,height-200,width,height);
+        grd.addColorStop(0,"rgba(152, 84, 192, 0.8)");
+        grd.addColorStop(1,"#64B785");
+
         context.beginPath();
         context.arc(xVal, yVal, radius, 0, 2* Math.PI, false);
-        context.fillStyle = "rgba(0, 0, 0, 0.8)";
+        context.fillStyle = "rgba(152, 84, 192, 0.8)";
         context.fill();
 
         context.lineWidth = 2;
-        context.strokeStyle = '#000000';
+        context.strokeStyle = '#602184';
         context.stroke();
     }
 }
@@ -79,18 +86,38 @@ function drawKeys(keyCoords) {
     var xPointer = keyGapSize + keyWidth;
    //console.log(keyGapSize);
     for(var i = 1; i < 9; i++) {
-        context.beginPath();
+        
         //console.log(xPointer);
-        context.rect(xPointer, height*.8, keyWidth, 400);
-        xPointer += keyGapSize + keyWidth;
+        
+        
         //context.rect(keyCoords[i][0]+keyGapSize/2, keyCoords[i][1], keyCoords[0][0]-keyGapSize, 100);
-        var on = keypress[i-1] * 255;
-        context.fillStyle = "rgba(70, 0, " + on + ", .5)";
+        var on = 80 + keypress[i-1] * 70;
+        
+        context.beginPath();
+        //here we draw the lanes for the 
+        var grd=context.createLinearGradient(0,0,0,height/2);
+        grd.addColorStop(0,"black");
+        grd.addColorStop(1,"white");
+
+        context.fillStyle=grd;
+
+        context.rect(xPointer, 0, keyWidth, height);
+        context.fillStyle = grd;
         context.fill();
-        context.lineWidth = 2;
-        context.strokeStyle = 'black';
+        
+        context.beginPath();
+        context.rect(xPointer, height*.8, keyWidth, 400);
+        context.fillStyle = "rgba(70, 70, " + on + ", 1)";
+        context.fill();
+        context.lineWidth = 6;
+        context.strokeStyle = 'white';
         context.stroke();
+
+        xPointer += keyGapSize + keyWidth;
+
     }
+
+
 }
 
 
@@ -98,11 +125,11 @@ function update() {
     //draw white canvas
     context.beginPath();
     context.rect(0, 0, width, height);
-    context.fillStyle = "#aaaaaa";
+    context.fillStyle = "#000000";
     context.fill();
     drawKeys(keyCoords);
     drawFingerMarkers(xmen, ymen);
-    for(var i = 0; i < notesToDraw.length; i++) {
+    for(var i = 0; i < notesToDraw.length; i++) { //remove notes from this list eventually
         notesToDraw[i].updatePosition();
         notesToDraw[i].draw();
     }
@@ -110,7 +137,6 @@ function update() {
     //console.log(xmen);
     //console.log(notesToDraw);
 }
-
 
 var notesToDraw = new Array();
 
@@ -148,9 +174,19 @@ var Note = function(keyIndex, duration) {
 
     this.draw = function() {
         context.beginPath();
+
+        var grd=context.createLinearGradient(0,0,0,height);
+        grd.addColorStop(0,"#6BA986");
+        grd.addColorStop(.33,"#81C37C");
+        grd.addColorStop(.66, "#50CBBF");
+        grd.addColorStop(1, "#84EEAE");
+
+        context.fillStyle=grd;
         context.rect(this.x, this.y, keyWidth, this.noteHeight);
-        context.fillStyle = "rgba(0, 0, 0, 0.9)";
+        //context.fillStyle = "rgba(94, 82, 200, 0.7)";
         context.fill();
+        context.strokeStyle = "#ffffff";
+        context.stroke();
     }
 }
 
@@ -160,7 +196,7 @@ function normalizeX(val) {
     //val = val / 160.0 * width;
     //console.log(val);
 
-    return (val+150)*6;
+    return (val+150)*7;
 }
 
 function normalizeY(val) {
