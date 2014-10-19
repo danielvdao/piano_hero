@@ -7,6 +7,8 @@ var keyGapSize;
 
 var EDGE_GAP_PERCENT = 0.05;
 var KEY_HEIGHT_PERCENT = .7;
+
+var madeMistake = false;
 var noteData = [
 [{  //1st eigth note
     "note": 0,
@@ -202,4 +204,8 @@ function normalizeY(val) {
     //val += height*.7;
     //val = val / 160.0 * (height * .3);
     return (val+400)*2;
+}
+
+function flashScreen() {
+
 }
