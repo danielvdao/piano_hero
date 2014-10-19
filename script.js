@@ -1,6 +1,6 @@
 function play_sound(key) {
 	tone = '';
-	octave = '3';
+	ocatave = '3';
 
 	if (key == 0){
 		tone += 'tone-' + ocatave +'A';

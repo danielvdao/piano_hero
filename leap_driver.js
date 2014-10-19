@@ -1,42 +1,32 @@
+var sounds = new Array(8);
+sounds[0] = new Howl({
+  urls: ['audio/tone-3A.mp3', 'audio/tone-3A.ogg']
+});
+sounds[1] = new Howl({
+  urls: ['audio/tone-3B.mp3', 'audio/tone-3B.ogg']
+});
+sounds[2] = new Howl({
+  urls: ['audio/tone-3C.mp3', 'audio/tone-3C.ogg']
+});
+sounds[3] = new Howl({
+  urls: ['audio/tone-3Cs.mp3', 'audio/tone-3Cs.ogg']
+});
+sounds[4] = new Howl({
+  urls: ['audio/tone-3D.mp3', 'audio/tone-3D.ogg']
+});
+sounds[5] = new Howl({
+  urls: ['audio/tone-3E.mp3', 'audio/tone-3E.ogg']
+});
+sounds[6] = new Howl({
+  urls: ['audio/tone-3F.mp3', 'audio/tone-3F.ogg']
+});
+sounds[7] = new Howl({
+  urls: ['audio/tone-3G.mp3', 'audio/tone-3G.ogg']
+});
+
+
 function play_sound(key) {
-  tone = '';
-  ocatave = '3';
-
-  if (key == 0){
-    tone += 'tone-' + ocatave +'A';
-  }
-  else if (key == 1){
-    tone += 'tone-' + ocatave +'B';
-  }
-  else if (key == 2){
-    tone += 'tone-' + ocatave +'C';
-  }
-  else if (key == 3){
-    tone += 'tone-' + ocatave +'Cs';
-  }
-  else if (key == 4){
-    tone += 'tone-' + ocatave +'D';
-  }
-  else if (key == 5){
-    tone += 'tone-' + ocatave +'E';
-  }
-  else if (key == 6){
-    tone += 'tone-' + ocatave +'F';
-  }
-  else if (key == 7){
-    tone += 'tone-' + ocatave +'G';
-  }
-  else{
-    console.log('invalid key index');
-  }
-  
-
-  file_mp3 = 'audio/' + tone + '.mp3';
-  file_ogg = 'audio/' + tone + '.ogg';
-
-  var sound = new Howl({
-    urls: [file_mp3, file_ogg]
-  }).play();
+  sounds[key].play();
 }
 
 // Corresponds to whether key was pressed 
