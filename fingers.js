@@ -94,7 +94,7 @@ function update() {
         notesToDraw[i].updatePosition();
         notesToDraw[i].draw();
     }
-
+    console.log(xmen);
     //console.log(notesToDraw);
 }
 
