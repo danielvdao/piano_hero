@@ -50,7 +50,9 @@ window.onload = function() {
     keyGapSize = keyWidth / 9;
     context.fillStyle = "#aaaaaa";
     context.fillRect(0,0,width,height);
-    
+    setInterval(update, 20);
+
+    setInterval(updateNotes, 60*1000/bpm);
     drawKeys();
     //drawFingerMarkers(fakeX, fakeY);
     //updateNotes();
@@ -134,7 +136,8 @@ function update() {
         notesToDraw[i].draw();
     }
     
-    //console.log(xmen);
+    //console.log("X VALUES: " + xmen);
+    console.log("Y VALUES: " + ymen);
     //console.log(notesToDraw);
 }
 
@@ -156,9 +159,7 @@ function updateNotes() {
     beatCounter ++;
 }
 var bpm = 120;
-setInterval(update, 20);
 
-setInterval(updateNotes, 60*1000/bpm);
 
 
 var Note = function(keyIndex, duration) {
@@ -194,16 +195,37 @@ function normalizeX(val) {
     //console.log(val);
    //val += 80;
     //val = val / 160.0 * width;
-    //console.log(val);
+        //console.log(val);
+    if(val < -180) {
+        val = -180;
+    }
 
-    return (val+150)*7;
+    if(val > 180) {
+        val = 180;
+    }
+
+    val += 180;
+    val = val / 360.0;
+    val *= width;
+    return val;
 }
 
 function normalizeY(val) {
-    //val += 80;
-    //val += height*.7;
-    //val = val / 160.0 * (height * .3);
-    return (val+400)*2;
+    
+    if(val < -180) {
+        val = -180;
+    }
+
+    if(val > 180) {
+        val = 180;
+    }
+
+    val += 180;
+    val = val / 360.0;
+    val *= height * .4;
+    val += height*.7;
+    console.log(val);
+    return val;
 }
 
 
