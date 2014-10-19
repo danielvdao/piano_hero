@@ -134,7 +134,7 @@ Leap.loop(controllerOptions, function(frame) {
           }
         }
 
-        console.log(keypress);
+        //console.log(keypress);
 
         // Store right and left hand!!!! :D <3333
         for (var j = 0; j < hands.length; ++j) {
